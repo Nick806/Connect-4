@@ -54,6 +54,17 @@ class Board:
                 return "move done"
         return "Broo, what the heellll"
     
+    def win(self, indx, indy):
+        ply=self.board[indx][indy]
+        #check -
+        count = 1
+        x = indx+1
+        if self.columns>x:
+            while self.board[x][indy] == ply:
+                count += 1
+                x += 1
+                if self.columns>x: break
+    
 
     def __str__(self):
         string = ""
