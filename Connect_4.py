@@ -33,6 +33,29 @@ def retrive_config():
 #   Classes
 ################################################################################
     
+class Board:
+    def __init__(self, board):
+        self.board = board
+        self.height = len(board)
+        self.columns = len(board[0])
+    
+    
+    def move(self, column, player):
+        if column<1 or column>self.columns: return "out of range"
+        if self.board[0][column-1] != 0 : return "illegal move"
+        x = self.height
+
+        for ind,x in enumerate(self.board[::-1][column-1]):
+            if x == 0:
+                self.board[self.height-1-ind][column-1] = player
+
+    def __str__(self):
+
+        for row in table:
+            for item in row:
+                print(item, end=" ")
+            print()
+
 
 
 ################################################################################
@@ -254,6 +277,12 @@ if __name__ == "__main__":
         
     
     retrive_config()
+
+    b = Board(create_table(5,5,0))
+
+    b.move(3,2)
+
+    exit()
 
     while True:
 
