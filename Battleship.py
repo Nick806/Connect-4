@@ -1,27 +1,3 @@
-"""
-
-Significato dei simboli nelle tabelle:
-
-    Tabella di attacco (caratteri):
-        "O" = non noto / non ancora sparato
-        "A" = Acqua
-        "X" = Colpito ma non affondato
-        "Y" = Colpito e affondato
-
-    Tabella di difesa (int):
-        0 = vuoto
-        1 = nave da 2
-        2 = nave da 2
-        3 = nave da 2
-        4 = nave da 3
-        5 = nave da 3
-        6 = nave da 4
-        7 = nave da 4
-        8 = nave da 5
-
-
-"""
-
 
 import random
 import time
@@ -42,44 +18,20 @@ NUMBER_OF_DIGITS = 4
 #   Settings functions
 ################################################################################
 
-class symbols:
-    def __init__(self, unknown, miss, hit, sunk):
-        self.unknown = unknown
-        self.miss = miss
-        self.hit = hit
-        self.sunk = sunk
-
-#set the default value of every variable
-default_symbols = symbols("O", "A", "X", "Y")
-config_symbols = symbols("O", "A", "X", "Y")
-
-ROWS = 10
+HEIGHT = 10
 COLUMNS = 10
-SHIPS = [2,2,2,2,3,3,3,4,4,5]
-
 bots_folder = "Bots"
 
 def retrive_config():
-    global SHIPS, ROWS, COLUMNS, bots_folder
+    global HEIGHT, COLUMNS, bots_folder
 
     # Load environment variables from .env file
     load_dotenv("config.env")
 
     # Access variables using os.getenv
-    ROWS = int(os.getenv("rows"))
+    HEIGHT = int(os.getenv("height"))
     COLUMNS = int(os.getenv("columns"))
     bots_folder = os.getenv("bots_folder")
-    SHIPS = list(map(int, os.getenv("ships").split(',')))
-
-    print(type(ROWS))
-
-    config_symbols.unknown = str(os.getenv("symbol_unknown"))
-    config_symbols.miss = str(os.getenv("symbol_miss"))
-    config_symbols.hit = str(os.getenv("symbol_hit"))
-    config_symbols.sunk = str(os.getenv("symbol_sunk"))
-
-    print(config_symbols.miss)
-    print(config_symbols.hit)
 
 ################################################################################
 #   GUI functions
