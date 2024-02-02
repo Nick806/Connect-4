@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 HEIGHT = 10
 COLUMNS = 10
 bots_folder = "Bots"
+CONNECT = 4
 
 def retrive_config():
     global HEIGHT, COLUMNS, bots_folder
@@ -26,6 +27,7 @@ def retrive_config():
     # Access variables using os.getenv
     HEIGHT = int(os.getenv("height"))
     COLUMNS = int(os.getenv("columns"))
+    CONNECT = int(os.getenv("connect"))
     bots_folder = os.getenv("bots_folder")
 
 
