@@ -45,16 +45,23 @@ class Board:
         if self.board[0][column-1] != 0 : return "illegal move"
         x = self.height
 
-        for ind,x in enumerate(self.board[::-1][column-1]):
-            if x == 0:
-                self.board[self.height-1-ind][column-1] = player
+        while x>0:
+            x-=1
+            if self.board[x][column-1] == 0:
+                self.board[x][column-1] = player
+                return "move done"
+        return "Broo, what the heellll"
+    
 
     def __str__(self):
-
-        for row in table:
+        string = ""
+        for row in self.board:
             for item in row:
-                print(item, end=" ")
-            print()
+                string+= str(item)
+                string+= " "
+            string+= "\n"
+        
+        return string
 
 
 
@@ -280,7 +287,12 @@ if __name__ == "__main__":
 
     b = Board(create_table(5,5,0))
 
-    b.move(3,2)
+    print(b)
+
+    while True:
+        print(b.move(int(input()),1))
+
+        print(b)
 
     exit()
 
