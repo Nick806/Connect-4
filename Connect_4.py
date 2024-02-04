@@ -45,30 +45,31 @@ class Board:
     
     def move(self, column, player) -> str:
         if column<1 or column>self.columns: return "out of range"
-        if self.board[0][column-1] != 0 : return "illegal move"
-        x = self.height
-
-        while x>0:
-            x-=1
+        if self.board[self.height-1][column-1] != 0 : return "illegal move"
+        
+        x = 0
+        while x<self.height:
             if self.board[x][column-1] == 0:
                 self.board[x][column-1] = player
+                break
+            x+=1
         
         if self._check_win(x+1, column): return "win"
         else: return "move done"
     
     def _check_win(self, height, columns) -> bool:
         indx = height-1
-        indy = columns
+        indy = columns-1
         ply=self.board[indx][indy]
         #check -
         count = 1
         x = indx+1
-        while self.board[x][indy] == ply and self.columns>x:
+        while self.columns>x and self.board[x][indy] == ply:
             count += 1
             x += 1
 
         x = indx-1
-        while self.board[x][indy] == ply and x>=0:
+        while  x>=0 and self.board[x][indy] == ply:
             count += 1
             x -= 1
         if count>=self.connect: return 1
@@ -76,12 +77,12 @@ class Board:
         #check |
         count = 1
         y = indy+1
-        while self.board[indx][y] == ply and self.height>y:
+        while self.height>y and self.board[indx][y] == ply:
             count += 1
             y += 1
 
         y = indy-1
-        while self.board[indx][y] == ply and y>=0:
+        while y>=0 and self.board[indx][y] == ply:
             count += 1
             y -= 1
         if count>=self.connect: return 1
@@ -90,14 +91,14 @@ class Board:
         count = 1
         x = indx+1
         y = indy+1
-        while self.board[x][y] == ply and self.height>y and self.columns>x:
+        while self.height>y and self.columns>x and self.board[x][y] == ply:
             count += 1
             y += 1
             x += 1
 
         x = indx-1
         y = indy-1
-        while self.board[x][y] == ply and y>=0 and x>=0:
+        while y>=0 and x>=0 and self.board[x][y] == ply:
             count += 1
             y -= 1
             x -= 1
@@ -107,14 +108,14 @@ class Board:
         count = 1
         x = indx+1
         y = indy-1
-        while self.board[x][y] == ply and y>=0 and self.columns>x:
+        while y>=0 and self.columns>x and self.board[x][y] == ply:
             count += 1
             y -= 1
             x += 1
 
         x = indx-1
         y = indy+1
-        while self.board[x][y] == ply and self.height>y and x>=0:
+        while self.height>y and x>=0 and self.board[x][y] == ply:
             count += 1
             y += 1
             x -= 1
