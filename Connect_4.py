@@ -40,9 +40,10 @@ class Board:
         self.board = board
         self.height = len(board)
         self.columns = len(board[0])
+        self.connect = CONNECT
     
     
-    def move(self, column, player):
+    def move(self, column, player) -> str:
         if column<1 or column>self.columns: return "out of range"
         if self.board[0][column-1] != 0 : return "illegal move"
         x = self.height
@@ -51,19 +52,75 @@ class Board:
             x-=1
             if self.board[x][column-1] == 0:
                 self.board[x][column-1] = player
-                return "move done"
-        return "Broo, what the heellll"
+        
+        if self._check_win(x+1, column): return "win"
+        else: return "move done"
     
-    def win(self, indx, indy):
+    def _check_win(self, height, columns) -> bool:
+        indx = height-1
+        indy = columns
         ply=self.board[indx][indy]
         #check -
         count = 1
         x = indx+1
-        if self.columns>x:
-            while self.board[x][indy] == ply:
-                count += 1
-                x += 1
-                if self.columns>x: break
+        while self.board[x][indy] == ply and self.columns>x:
+            count += 1
+            x += 1
+
+        x = indx-1
+        while self.board[x][indy] == ply and x>=0:
+            count += 1
+            x -= 1
+        if count>=self.connect: return 1
+
+        #check |
+        count = 1
+        y = indy+1
+        while self.board[indx][y] == ply and self.height>y:
+            count += 1
+            y += 1
+
+        y = indy-1
+        while self.board[indx][y] == ply and y>=0:
+            count += 1
+            y -= 1
+        if count>=self.connect: return 1
+        
+        #check /
+        count = 1
+        x = indx+1
+        y = indy+1
+        while self.board[x][y] == ply and self.height>y and self.columns>x:
+            count += 1
+            y += 1
+            x += 1
+
+        x = indx-1
+        y = indy-1
+        while self.board[x][y] == ply and y>=0 and x>=0:
+            count += 1
+            y -= 1
+            x -= 1
+        if count>=self.connect: return 1
+
+        #check \
+        count = 1
+        x = indx+1
+        y = indy-1
+        while self.board[x][y] == ply and y>=0 and self.columns>x:
+            count += 1
+            y -= 1
+            x += 1
+
+        x = indx-1
+        y = indy+1
+        while self.board[x][y] == ply and self.height>y and x>=0:
+            count += 1
+            y += 1
+            x -= 1
+        if count>=self.connect: return 1
+
+        return 0
     
 
     def __str__(self):
@@ -75,6 +132,13 @@ class Board:
             string+= "\n"
         
         return string
+    
+    @classmethod
+    def new_clear_board(cls, height, columns):
+        return cls([[0 for x in columns] for y in height])
+    
+
+
 
 
 
@@ -304,8 +368,10 @@ if __name__ == "__main__":
 
     while True:
         print(b.move(int(input()),1))
-
         print(b)
+        print(b.move(int(input()),2))
+        print(b)
+
 
     exit()
 
